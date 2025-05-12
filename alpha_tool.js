@@ -200,6 +200,46 @@ const executeTrade = async (iteration) => {
         console.log('Buy input after set:', buyInput.value);
         await randomDelay(2000, 4000);
 
+
+        // 设置滑点
+        // 定位包含设置滑点元素
+        const button = document.querySelector('div.t-subtitle3.text-PrimaryText div.bn-flex.cursor-pointer');
+        // 触发点击事件
+        if (button) {
+            button.click();
+        } else {
+            console.error('未找到目标按钮');
+        }
+        await randomDelay(500, 1000);
+
+        // 定位包含“自定义”文本的 div 元素
+        const buttonList = document.querySelectorAll('div.t-subtitle1.text-PrimaryText');
+        let targetButton = null;
+
+        for (let button of buttonList) {
+            if (button.textContent.includes('自定义')) {
+                targetButton = button;
+                break;
+            }
+        }
+        await randomDelay(500, 1000);
+
+        // 触发点击事件
+        if (targetButton) {
+            targetButton.click();
+        } else {
+            console.error('未找到包含“自定义”的按钮');
+        }
+        await randomDelay(500, 1000);
+        const customizeinput = document.querySelector('#customize-slippage');
+        setInputValue(customizeinput, '0.1')
+        await randomDelay(500, 1000);
+        // 8. 点击确认按钮
+        if (!clickConfirmButton()) {
+            throw new Error('Failed to click Confirm button for sell');
+        }
+        await randomDelay(3000, 5000);
+
         // 3. 点击买入按钮
         const buyButton = document.querySelector('.bn-button.bn-button__buy');
         if (!buyButton || !simulateClick(buyButton, 'Buy button')) {
@@ -226,6 +266,44 @@ const executeTrade = async (iteration) => {
         console.log('Slider after set:', slider.value);
         await randomDelay(3000, 5000);
 
+        // 设置滑点
+        // 定位包含设置滑点元素
+        const cursorbutton = document.querySelector('div.t-subtitle3.text-PrimaryText div.bn-flex.cursor-pointer');
+        if (cursorbutton) {
+            cursorbutton.click();
+        } else {
+            console.error('未找到目标按钮');
+        }
+        await randomDelay(500, 1000);
+
+        // 定位包含“自定义”文本的 div 元素
+        // 定位包含“自定义”文本的 div 元素
+        const buttonList2 = document.querySelectorAll('div.t-subtitle1.text-PrimaryText');
+        let targetButton2 = null;
+        for (let button of buttonList2) {
+            if (button.textContent.includes('自定义')) {
+                targetButton2 = button;
+                break;
+            }
+        }
+        await randomDelay(500, 1000);
+
+        // 触发点击事件
+        if (targetButton2) {
+            targetButton2.click();
+        } else {
+            console.error('未找到包含“自定义”的按钮');
+        }
+        await randomDelay(500, 1000);
+        const customizeinput2 = document.querySelector('#customize-slippage');
+        setInputValue(customizeinput2, '0.1')
+        await randomDelay(500, 1000);
+        // 8. 点击确认按钮
+        if (!clickConfirmButton()) {
+            throw new Error('Failed to click Confirm button for sell');
+        }
+        await randomDelay(3000, 5000);
+
         // 7. 点击卖出按钮
         const sellButton = document.querySelector('.bn-button.bn-button__sell');
         if (!sellButton || !simulateClick(sellButton, 'Sell button')) {
@@ -247,7 +325,7 @@ const executeTrade = async (iteration) => {
 };
 
 // 循环执行主函数 20 次
-const runTradeLoop = async (maxIterations = 20) => {
+const runTradeLoop = async (maxIterations = 100) => {
     let successfulIterations = 0;
     let failedIterations = 0;
 
@@ -271,6 +349,6 @@ const runTradeLoop = async (maxIterations = 20) => {
 };
 
 // 启动循环
-runTradeLoop(20).catch(error => {
+runTradeLoop(3).catch(error => {
     console.error('Trade loop encountered an unexpected error:', error);
 });
