@@ -1,3 +1,7 @@
+let value = 8; // 购买金额
+let runtime = 10; // 运行次数
+let customize = 0.1; // 滑点设置
+
 // 通用函数：设置输入框或滑块的值（React 兼容）
 const setInputValue = (element, value, options = {}) => {
     if (!element) {
@@ -194,7 +198,7 @@ const executeTrade = async (iteration) => {
         await randomDelay(500, 1000);
 
         // 2. 输入买入金额 8
-        if (!setInputValue(buyInput, '8')) {
+        if (!setInputValue(buyInput, value)) {
             throw new Error('Failed to set buy input value');
         }
         console.log('Buy input after set:', buyInput.value);
@@ -232,7 +236,7 @@ const executeTrade = async (iteration) => {
         }
         await randomDelay(500, 1000);
         const customizeinput = document.querySelector('#customize-slippage');
-        setInputValue(customizeinput, '0.1')
+        setInputValue(customizeinput, customize)
         await randomDelay(500, 1000);
         // 8. 点击确认按钮
         if (!clickConfirmButton()) {
@@ -296,7 +300,7 @@ const executeTrade = async (iteration) => {
         }
         await randomDelay(500, 1000);
         const customizeinput2 = document.querySelector('#customize-slippage');
-        setInputValue(customizeinput2, '0.1')
+        setInputValue(customizeinput2, customize)
         await randomDelay(500, 1000);
         // 8. 点击确认按钮
         if (!clickConfirmButton()) {
@@ -325,7 +329,7 @@ const executeTrade = async (iteration) => {
 };
 
 // 循环执行主函数 20 次
-const runTradeLoop = async (maxIterations = 100) => {
+const runTradeLoop = async (maxIterations = runtime) => {
     let successfulIterations = 0;
     let failedIterations = 0;
 
@@ -349,6 +353,6 @@ const runTradeLoop = async (maxIterations = 100) => {
 };
 
 // 启动循环
-runTradeLoop(3).catch(error => {
+runTradeLoop(runtime).catch(error => {
     console.error('Trade loop encountered an unexpected error:', error);
 });
